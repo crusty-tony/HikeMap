@@ -1,0 +1,27 @@
+.body {
+    background-color: darkgreen; 
+}
+h1 {
+    border-style: dotted; 
+    border-color: yellow; 
+    color: white; 
+    text-align: center; 
+    text-decoration: underline; 
+}
+h2 {
+    color: white; 
+    text-decoration: underline; 
+    text-align: center; 
+    border-style: groove;
+}
+.sub {
+    color: yellow; 
+    text-align: center; 
+    font-style: italic; 
+    text-decoration: underline;
+}
+.imgimg {
+    text-align: center;
+    border-style: groove;
+    border-radius: 10cqi;
+}
