@@ -33,6 +33,8 @@ class User(UserMixin, Document):
     email = EmailField()
     image = FileField()
     prononuns = StringField()
+    role = StringField()
+
 
     meta = {
         'ordering': ['lname','fname']
@@ -49,6 +51,8 @@ class Blog(Document):
     meta = {
         'ordering': ['-createdate']
     }
+
+    
 
 class Comment(Document):
     # Line 63 is a way to access all the information in Course and Teacher w/o storing it in this class
@@ -75,6 +79,23 @@ class Clinic(Document):
     state = StringField()
     zipcode = StringField()
     description = StringField()
+    lat = FloatField()
+    lon = FloatField()
+    
+    meta = {
+        'ordering': ['-createdate']
+    }
+
+class Hike(Document):
+    author = ReferenceField('User',reverse_delete_rule=CASCADE) 
+    createdate = DateTimeField(default=dt.datetime.utcnow)
+    modifydate = DateTimeField()
+    name = StringField()
+    streetAddress = StringField()
+    city = StringField()
+    state = StringField()
+    zipcode = StringField()
+    difficulty = StringField()
     lat = FloatField()
     lon = FloatField()
     
