@@ -14,6 +14,7 @@ class ProfileForm(FlaskForm):
     image = FileField("Image") 
     submit = SubmitField('Post')
     role = SelectField('Role',choices=[("Teacher","Teacher"),("Student","Student")])
+    age = IntegerField('Age', validators=[NumberRange(min=1,max=99)])
 
 
 
