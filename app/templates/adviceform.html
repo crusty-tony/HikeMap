@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block body %}
+        <h1>Advice</h1>
+
+        <form method=post>
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.topic.label }} <br>
+                {{ form.topic(size=64) }}
+                <!--List the errors for this field-->
+                {% for error in form.topic.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.question.label }} <br>
+                {{ form.question(cols=64, rows=10) }}
+                <!--List the errors for this field-->
+                {% for error in form.question.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{ form.priority.label }} <br>
+                {{ form.priority(size=64) }}
+                <!--List the errors for this field-->
+                {% for error in form.priority.errors %}
+                    <span style="color: red;">[{{ error }}]</span>
+                {% endfor %}
+            </p>
+            <p>
+                {{form.submit()}}
+            </p>
+        </form>
+        
+{% endblock %}

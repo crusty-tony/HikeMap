@@ -24,6 +24,12 @@ class BlogForm(FlaskForm):
     tag = StringField('Tag', validators=[DataRequired()])
     submit = SubmitField('Blog')
 
+class AdviceForm(FlaskForm):
+    topic = StringField('Subject', validators=[DataRequired()])
+    question = TextAreaField('What is your question?', validators=[DataRequired()])
+    priority = IntegerField('How important is this?', validators=[NumberRange(min=1,max=10)])
+    submit = SubmitField('Submit')
+
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')

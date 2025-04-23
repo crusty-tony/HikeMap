@@ -52,6 +52,18 @@ class Blog(Document):
         'ordering': ['-createdate']
     }
 
+class Advice(Document):
+    author = ReferenceField('User',reverse_delete_rule=CASCADE) 
+    topic = StringField()
+    question = StringField()
+    priority = IntField()
+    create_date = DateTimeField(default=dt.datetime.utcnow)
+    modify_date = DateTimeField()
+
+    meta = {
+        'ordering': ['-createdate']
+    }
+
     
 
 class Comment(Document):
