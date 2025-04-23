@@ -12,7 +12,7 @@ like the navbar. -->
     <!--Put the title of your app here-->
     <title>Title</title>
     <!--This is where the link to the favicon and local CSS file goes.  The files that are referenced are in the static folder.-->
-    <link rel="stylesheet" href="\static\style.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"> 
