@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+{% if advice %}
+    {{moment(advice.create_date).calendar()}} by {{advice.author.fname}} {{advice.author.lname}} 
+    {% if advice.modifydate %}
+        modified {{moment(advice.modifydate).calendar()}}
+    {% endif %}
+    <br>
+    {% if advice.author == current_user %}
+        <a data-toggle="tooltip" data-placement="top" title="Delete Advice" href="/advice/delete/{{advice.id}}">
+            <img width="40" class="bottom-image" src="/static/delete.png">
+        </a>
+        <a data-toggle="tooltip" data-placement="top" title="Edit advice" href="/advice/edit/{{advice.id}}">
+            <img width="40" class="bottom-image" src="/static/edit.png">
+        </a>
+    {% endif %}
+
+    <h1 class="display-5">{{advice.subject}}</h1>
+    <p class="fs-3 text-break">
+        {% if advice.author.image %}
+            <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(advice.author.image.read())}}">
+        {% endif %}
+            {{advice.content}} <br>
+            {{advice.tag}}
+
+    </p>
+
+{% endblock %}
