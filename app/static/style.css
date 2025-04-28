@@ -1,27 +1,34 @@
 .body {
-    background-color: darkgreen; 
+    background-color: rgb(39, 59, 47);
 }
-h1 {
-    border-style: dotted; 
-    border-color: yellow; 
-    color: white; 
-    text-align: center; 
-    text-decoration: underline; 
-}
-h2 {
-    color: white; 
-    text-decoration: underline; 
-    text-align: center; 
-    border-style: groove;
-}
-.sub {
-    color: yellow; 
-    text-align: center; 
-    font-style: italic; 
-    text-decoration: underline;
-}
-.imgimg {
+
+.title {
     text-align: center;
-    border-style: groove;
+    text-transform: bold;
+}
+.t1 {
+    text-decoration: underline;
+    text-align: r;
+    color: antiquewhite;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.under1 {
+    text-align: right; 
+    color: rgb(93, 86, 86);
+}
+
+.imgimg {
+    text-align: left;
     border-radius: 10cqi;
-} 
+    text-decoration-line: unset;
+    border: 2px solid rgb(255, 255, 255);
+    border
+}
+
+body{
+    background-color: rgb(255, 255, 255);
+}
+
+.thanks {
+    text-align:right
+}
