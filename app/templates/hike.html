@@ -1,0 +1,57 @@
+<!-- this is going to look WACKY i am in the midst of working on it. Sorry :( - Sylvie  -->
+
+{% extends 'base.html' %}
+
+    {% block body %}
+    
+    {% if hike %}
+    
+    {{moment(hike.createdate).calendar()}} by {{hike.author.username}} 
+    {% if hike.modifydate %}
+        modified {{moment(hike.modifydate).calendar()}}
+    {% endif %}
+    <br>
+        {% if hike.author == current_user %}
+            <a data-toggle="tooltip" data-placement="top" title="Delete Hike" href="/hike/delete/{{hike.id}}">
+                <img width="40" class="bottom-image" src="/static/delete.png">
+            </a>
+            <a data-toggle="tooltip" data-placement="top" title="Edit Hike" href="/hike/edit/{{hike.id}}">
+                <img width="40" class="bottom-image" src="/static/edit.png">
+            </a>
+        {% endif %}
+    
+        <h1 class="display-5">Name:  {{hike.name}}</h1>
+        <p class="fs-3 text-break">
+                {{hike.content}}
+        </p>
+        <p class="fs-3 text-break">
+            {% if hike.author.image %}
+                <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(hike.author.image.read())}}">
+            {% endif %}
+                {{hike.content}}
+        </p>
+        <h1 class="display-5">
+            {{hike.streetAddress}} <br>
+            {{hike.city}} {{hike.state}} {{hike.zipcode}}
+        </h1>
+        <p class="fs-3 text-break"> 
+                {{hike.content}}
+        </p>
+        <h1 class="display-5">Description: {{hike.description}}</h1>
+        <p class="fs-3 text-break">
+                {{hike.content}}
+        </p>
+        
+    {% else %}
+        <h1 class="display-5">No Hike</h1>
+    {% endif %}
+    
+    {% endblock %}
+
+
+   <!--{% if hike.author.image %}
+                <img width="120" class="img-thumbnail float-start me-2" src="data:image;base64,{{base64encode(hike.author.image.read())}}">
+            {% endif %} 
+            
+            this is the code for the images, i took it out of 
+            the code but even when the code was still there i didn't see the pictures for some reason---> 

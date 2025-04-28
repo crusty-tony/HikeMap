@@ -22,19 +22,19 @@ class BlogForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     content = TextAreaField('Blog', validators=[DataRequired()])
     tag = StringField('Tag', validators=[DataRequired()])
-    submit = SubmitField('Blog')
+    submit = SubmitField('Post Blog')
 
 class AdviceForm(FlaskForm):
     topic = StringField('Subject', validators=[DataRequired()])
     question = TextAreaField('What is your question?', validators=[DataRequired()])
     priority = IntegerField('How important is this?', validators=[NumberRange(min=1,max=10)])
-    submit = SubmitField('Submit')
+    submit = SubmitField('Post Advice')
 
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')
 
-class ClinicForm(FlaskForm):
+class HikeForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])
     streetAddress = StringField('Address', validators=[DataRequired()])
     city = StringField('City', validators=[DataRequired()])
@@ -45,9 +45,9 @@ class ClinicForm(FlaskForm):
 
 
 class ReviewForm(FlaskForm):
-    name = SelectField('Hospital Name',choices=[("Wilma Chan Highland Hospital","Wilma Chan Highland Hospital"),("Alta Bates Summit Medical Center","Alta Bates Summit Medical Center"), ("UCSF Benioff Children's Hospital", "UCSF Benioff Children's Hospital"), ("Kaiser Permanente", "Kaiser Permanente"), ("Fairmont Rehabilitation & Wellness", "Fairmont Rehabilitation & Wellness"), ("John George Psychiatric Pavilion", "John George Psychiatric Pavilion"), ("Alameda Hospital", "Alameda Hospital"), ("San Leandro Hospital","San Leandro Hospital")])
+    name = SelectField('Hike Name',choices=[("Yosemite's Vernal Falls","Yosemite's Vernal Falls"),("Nevada Falls and Half Dome","Nevada Falls and Half Dome"), ("Redwood National Park's Tall Trees Grove Loop", "Redwood National Park's Tall Trees Grove Loop"), ("Channel Islands National Park's Prisoners Harbor Trail", "Channel Islands National Park's Prisoners Harbor Trail"), ("Other", "Other")])
     text = TextAreaField('Write your Review', validators=[DataRequired()])
-    subject = SelectField('Experiences',choices=[("Patient Care", "Patient Care"), ("Visitor","Visitor"),("Waiting Duration","Waiting Duration"), ("Internship/Leanring Programs", "Internship/Leanring Programs"), ("Volunteer", "Volunteer"), ("Patient", "Patient"), ("Hospitality", "Hospitality"), ("Other","Other")])
+    subject = SelectField('Experiences',choices=[("Point To Point", "Point To Point"), ("Loop","Loop"), ("Trail", "Trail"), ("Other","Other")])
     rating = IntegerField('Rate your experience: 0 is terrible, 10 is amazing', validators=[NumberRange(min=0,max=10, message="Enter a number between 0 and 10.")])
     submit = SubmitField('Post Review')
 
