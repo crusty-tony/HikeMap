@@ -26,10 +26,10 @@
     map.addLayer(layer);
 
     // It even opens up a popup when you click it!
-    {% for clinic in clinics %}
-        {% if clinic.lat and clinic.lon %}
+    {% for hike in hikes %}
+        {% if hike.lat and hike.lon %}
             // Add your fields to the ppup on the next line.
-            L.marker(['{{clinic.lat}}', '{{clinic.lon}}']).addTo(map).bindPopup("<strong>{{clinic.name}}<br>{{clinic.streetAddress}}<br>{{clinic.city}},{{clinic.state}}  {{clinic.zipcode}}<br>desc: {{clinic.description}}</strong>")
+            L.marker(['{{hike.lat}}', '{{hike.lon}}']).addTo(map).bindPopup("<strong>{{hike.name}}<br>{{hike.streetAddress}}<br>{{hike.city}},{{hike.state}}  {{hike.zipcode}}<br>desc: {{hike.description}}</strong>")
         {% endif %}
     {% endfor %}
     // this is a way to add a marker that ALWAYS shows up.

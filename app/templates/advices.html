@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-4">
+        <h1 class="display-1">All Advices</h1>
+    </div>
+    <div class="col">
+        <a href="/advice/new" class="btn btn-primary btn-sm mt-5" role="button">New Advice</a>
+    </div>
+</div>
+
+{% if advices %}
+    {% for advice in advices %}
+        <div class="row border-bottom">
+            <div class="col-2">
+                {% if loop.index == 1 %}
+                <h3 class="display-5">Date</h3>
+                {% endif %}
+
+                <a href="/advice/{{advice.id}}">
+                    {{moment(advice.create_date).calendar()}}
+                </a>
+            </div>
+            <div class="col-2">
+                {% if loop.index == 1 %}
+                <h3 class="display-5">User</h3>
+                {% endif %}
+                {{advice.author.fname}} {{advice.author.lname}}
+            </div>
+            <div class="col">
+                {% if loop.index == 1 %}
+                    <h3 class="display-5">Subject</h3>
+                {% endif %}
+                {{advice.topic}}
+            </div>
+        </div>
+    {% endfor %}
+{% else %}
+    <h1>No Advices</h1>
+{% endif %}
+
+{% endblock %}
