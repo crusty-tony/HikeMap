@@ -4,12 +4,12 @@
 
 <div class="row">
     <div class="col-4">
-        <h1 class="display-1" style="font-family:Georgia, 'Times New Roman', Times, serif ; color:#ffffff">Recent Reviews</h1>
+        <h1 class="display-1" style="font-family:Georgia, 'Times New Roman', Times, serif ; color:#000000">Recent Reviews</h1>
         <br><br>
     </div>
     <div class="col">
         <br>
-        <a href="/review/new" class="btn btn-primary btn-sm mt-5" role="button" style="font-family:Georgia, 'Times New Roman', Times, serif ; color:#ffffff; width:200px; height:50px; font-size: x-large;">Post a Review</a>
+        <a href="/review/new" class="btn btn-primary btn-sm mt-5" role="button" style="font-family:Georgia, 'Times New Roman', Times, serif ; color:#000000; width:200px; height:50px; font-size: x-large;">Post a Review</a>
     </div>
 </div>
 
@@ -24,42 +24,42 @@
             </a> -->
             <div class="col-2">
                 {% if loop.index == 1 %}
-                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff">Date</h5></center>
+                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000">Date</h5></center>
                 {% endif %}
 
                 <a href="/review/{{review.id}}">
                     <br>
-                    <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff"> {{moment(review.create_date).calendar()}}</h5></center>
+                    <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000"> {{moment(review.create_date).calendar()}}</h5></center>
                 </a>
             </div>
             <div class="col-3">
                 {% if loop.index == 1 %}
-                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff">User</h5></center>
+                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000">User</h5></center>
                 {% endif %}
                 <br>
-                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff"> {{review.author.fname}} {{review.author.lname}}</h5></center>
+                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000"> {{review.author.fname}} {{review.author.lname}}</h5></center>
             </div>
             <div class="col-2">
                 {% if loop.index == 1 %}
-                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff">Hike</h5></center>
+                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000">Hike</h5></center>
                 {% endif %}
                 <br>
-                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff"> {{review.name}}</h5></center>
+                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000"> {{review.name}}</h5></center>
             </div>
             <div class="col-3">
                 {% if loop.index == 1 %}
-                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff">Experience</h5></center>
+                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000">Experience</h5></center>
                 {% endif %}
                 <br>
-                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff"> {{review.subject}}</h5></center>
+                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000"> {{review.subject}}</h5></center>
             </div>
             <br>
             <div class="col">
                 {% if loop.index == 1 %}
-                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff">Rating</h5></center>
+                <center><h5 class="display-5" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000">Rating</h5></center>
                 {% endif %}
                 <br>
-                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#ffffff"> {{review.rating}}</h5></center>
+                <center><h6 class="display-6" style="font-family:Georgia, 'Times New Roman', Times, serif; color:#000000"> {{review.rating}}</h5></center>
             </div>
         </div>
     {% endfor %}

@@ -25,7 +25,7 @@ class BlogForm(FlaskForm):
     submit = SubmitField('Post Blog')
 
 class AdviceForm(FlaskForm):
-    topic = StringField('Subject', validators=[DataRequired()])
+    topic = StringField('Topic', validators=[DataRequired()])
     question = TextAreaField('What is your question?', validators=[DataRequired()])
     priority = IntegerField('How important is this?', validators=[NumberRange(min=1,max=10)])
     submit = SubmitField('Post Advice')

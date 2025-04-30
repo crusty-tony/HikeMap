@@ -135,4 +135,46 @@ def adviceEdit(adviceID):
     # from the form.
     return render_template('adviceform.html',form=form)
 
+@app.route('/comments/new/<adviceID>', methods=['GET', 'POST'])
+@login_required
+def commentsNew(adviceID):
+    advice = Advice.objects.get(id=adviceID)
+    form = CommentForm()
+    if form.validate_on_submit():
+        newComment = Comment(
+            author = current_user.id,
+            advice = adviceID,
+            question = form.question.data
+        )
+        newComment.save()
+        return redirect(url_for('advice',adviceID=adviceID))
+    return render_template('commentform.html',form=form,advice=advice)
+
+@app.route('/comments/edit/<commentID>', methods=['GET', 'POST'])
+@login_required
+def commentsEdit(commentID):
+    editComment = Comment.objects.get(id=commentID)
+    if current_user != editComment.author:
+        flash("You can't edit a comment you didn't write.")
+        return redirect(url_for('advice',adviceID=editComment.advice.id))
+    advice = Advice.objects.get(id=editComment.advice.id)
+    form = CommentForm()
+    if form.validate_on_submit():
+        editComment.update(
+            question = form.question.data,
+            modifydate = dt.datetime.utcnow
+        )
+        return redirect(url_for('advice',adviceID=editComment.advice.id))
+
+    form.question.data = editComment.question
+
+    return render_template('commentform.html',form=form,advice=advice)   
+
+@app.route('/comments/delete/<commentID>')
+@login_required
+def commentsDelete(commentID): 
+    deleteComment = Comment.objects.get(id=commentID)
+    deleteComment.delete()
+    flash('The comments was deleted.')
+    return redirect(url_for('advice',adviceID=deleteComment.advice.id)) 
 

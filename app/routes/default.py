@@ -11,6 +11,10 @@ def index():
 def aboutus():
     return render_template('aboutus.html')
 
+@app.route('/description')
+def description():
+    return render_template('description.html')
+
 @app.route('/pretendprofile')
 def pretendprofile():
     return render_template('pretendprofile.html')
