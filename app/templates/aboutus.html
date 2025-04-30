@@ -1,17 +1,58 @@
 {% extends 'base.html' %}
 
 {% block body %}
-    <h1>Welcome to HIKE MAP - A project by Oakland Technical High School students </h1> 
-    
-    <h2 class="t1">Our mission</h2>
-    <h3 class="under1">We aspire to provide easy fast servies/information for those want to Hike in the National Parks of California</h3>
 
-    <div class="imgimg">
-       <img src="https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/082b0f67784535.5b460d9c1c634.jpg" height="400" width="400"> 
-    </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+    <header>
+      <h1>About Us</h1>
+      <p class="subtitle">Created by students at Oakland Technical High School</p>
+    </header>
+  
+    <section class="intro">
+      <img src="https://img.freepik.com/free-vector/grand-canyon-river-arizona-national-park_107791-20667.jpg?t=st=1745993856~exp=1745997456~hmac=f0eddd6ee17ed1ea534f4e3e17ee4a84f7ba31734ed2a7d54735c6697888d41f&w=996" alt="Yosemite National Park" class="main-image">
+      <h2><u>Who Are We?</u></h2>
+      <p>
+        We are a group of passionate students from <strong>Oakland Technical High School</strong> who love exploring nature and building digital tools to help others. Our website, <strong>Hike Map</strong>, was created to connect people with real-time hiking conditions in California’s breathtaking National Parks.
+      </p>
+    </section>
+  
+    <section class="mission">
+      <h2><u>Why We Built Hike Map</u></h2>
+      <p>
+        Hiking is something that we all enjoy, and it has brought us all closer to nature and each other. We wanted to build a space where people can share and access up-to-date trail conditions, experiences, and safety tips — making outdoor adventures more accessible and sustainable for everyone.
+      </p>
+    </section>
+  
+    <section class="team">
+      <h2><u>Meet the Team</u></h2>
+      <div class="team-members">
+        <div class="member">
+          <img src="https://via.placeholder.com/150" alt="Team member photo">
+          <p>Chase – Frontend Developer</p>
+        </div>
+        <div class="member">
+          <img src="https://via.placeholder.com/150" alt="Team member photo">
+          <p>Oscar – Backend Developer</p>
+        </div>
+        <div class="member">
+          <img src="https://via.placeholder.com/150" alt="Team member photo">
+          <p>Edward – Frontend Developer</p>
+        </div>
+        <div class="member">
+          <img src="https://via.placeholder.com/150" alt="Team member photo">
+          <p>Tony – Backend Developer</p>
+        </div>
+      </div>
+    </section>
+  </body>
+  </html>
 
-    <h2 class="t2">Our story</h2>
-    <h3 class="under2">Our shared love for national parks, is the reason why we set out to create a website
-        about trails; However their are dangers, weather conditions and other factors poeple overlook. 
-        Our goals as an team is provide updated information to the trail of their liking, in an easy, freindly format anyone can use</h3>
 {% endblock %}
