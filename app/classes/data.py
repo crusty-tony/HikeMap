@@ -20,6 +20,7 @@ from time import time
 from bson.objectid import ObjectId
 from flask_security import RoleMixin
 from functools import wraps
+import datetime as dt
 
 
 class User(UserMixin, Document):
@@ -45,6 +46,8 @@ class Blog(Document):
     subject = StringField()
     content = StringField()
     tag = StringField()
+    image_filename = StringField()
+    image_path = StringField()
     create_date = DateTimeField(default=dt.datetime.utcnow)
     modify_date = DateTimeField()
 
@@ -67,23 +70,21 @@ class Advice(Document):
     
 
 class Comment(Document):
-    # Line 63 is a way to access all the information in Course and Teacher w/o storing it in this class
-    author = ReferenceField('User',reverse_delete_rule=CASCADE) 
-    blog = ReferenceField('Blog',reverse_delete_rule=CASCADE)
-    # This could be used to allow comments on comments
-    comment = ReferenceField('Comment',reverse_delete_rule=CASCADE)
-    # Line 68 is where you store all the info you need but won't find in the Course and Teacher Object
+    author = ReferenceField('User', reverse_delete_rule=CASCADE)
+    blog = ReferenceField('Blog', reverse_delete_rule=CASCADE)
+    comment = ReferenceField('Comment', reverse_delete_rule=CASCADE)
+    advice = ReferenceField('Advice', reverse_delete_rule=CASCADE)
     content = StringField()
     create_date = DateTimeField(default=dt.datetime.utcnow)
-    modify_date = DateTimeField()
+    modify_date = DateTimeField(default=dt.datetime.utcnow)
 
     meta = {
-        'ordering': ['-createdate']
+        'ordering': ['-create_date']  # Also fixed the key name here (was `createdate`)
     }
 
 
 class Hike(Document):
-    author = ReferenceField('User',reverse_delete_rule=CASCADE) 
+    author = ReferenceField('User', reverse_delete_rule=CASCADE) 
     createdate = DateTimeField(default=dt.datetime.utcnow)
     modifydate = DateTimeField()
     name = StringField()
@@ -94,6 +95,7 @@ class Hike(Document):
     difficulty = StringField()
     lat = FloatField()
     lon = FloatField()
+    description = StringField()  # Add this line to include the description field
     
     meta = {
         'ordering': ['-createdate']

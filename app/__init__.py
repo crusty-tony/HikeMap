@@ -2,6 +2,7 @@
 import json
 import os
 
+
 # Third party libraries
 from flask import Flask
 from mongoengine import connect
@@ -37,3 +38,7 @@ def base64encode(img):
 app.jinja_env.globals.update(base64encode=base64encode)
 
 from .routes import *
+
+UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'static/uploads')
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg', 'gif'}

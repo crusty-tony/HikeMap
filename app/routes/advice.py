@@ -50,41 +50,25 @@ def adviceNew():
     # see how that works.
     return render_template('adviceform.html',form=form)
 
-@app.route('/advice/<adviceID>', methods=['GET', 'POST'])
+@app.route('/advice/<adviceID>')
 @login_required
 def advice(adviceID):
-    editAdvice = Advice.objects.get(id=adviceID)
-    # if the user that requested to edit this advice is not the author then deny them and
-    # send them back to the advice. If True, this will exit the route completely and none
-    # of the rest of the route will be run.
-    if current_user != editAdvice.author:
-        flash("You can't edit an advice you don't own.")
-        return redirect(url_for('advice',adviceID=adviceID))
-    # get the form object
-    form = AdviceForm()
-    # If the user has submitted the form then update the advice.
-    if form.validate_on_submit():
-        # update() is mongoengine method for updating an existing document with new data.
-        editAdvice.update(
-            topic = form.topic.data,
-            question = form.question.data,
-            priority = form.priority.data,
-            author = current_user.id,
-            modify_date = dt.datetime.utcnow
-        )
-        # After updating the document, send the user to the updated advice using a redirect.
-        return redirect(url_for('advice',adviceID=adviceID))
+    # Fetch the advice document by its ID
+    advice = Advice.objects.get(id=adviceID)
+    # Retrieve comments related to this advice by matching the advice ID
+    comments = Comment.objects(advice=adviceID)
+    return render_template('advice.html', advice=advice, comments=comments)
 
-    # if the form has NOT been submitted then take the data from the editAdvice object
-    # and place it in the form object so it will be displayed to the user on the template.
-    form.topic.data = editAdvice.topic
-    form.question.data = editAdvice.question
-    form.priority.data = editAdvice.priority
-
-
-    # Send the user to the advice form that is now filled out with the current information
-    # from the form.
-    return render_template('adviceform.html',form=form)
+@app.route('/advice/delete/<adviceID>')
+@login_required
+def adviceDelete(adviceID):
+    advice = Advice.objects.get(id=adviceID)
+    if current_user != advice.author:
+        flash("You can't delete advice you didn't create.")
+        return redirect(url_for('advice', adviceID=adviceID))
+    advice.delete()
+    flash("Advice deleted.")
+    return redirect(url_for('adviceList'))
 
 @app.route('/advice/list')
 @app.route('/advices')
@@ -142,13 +126,13 @@ def commentsNew(adviceID):
     form = CommentForm()
     if form.validate_on_submit():
         newComment = Comment(
-            author = current_user.id,
-            advice = adviceID,
-            question = form.question.data
+            author=current_user,
+            advice=advice,
+            content=form.content.data  # Changed from `question` to `content`
         )
         newComment.save()
-        return redirect(url_for('advice',adviceID=adviceID))
-    return render_template('commentform.html',form=form,advice=advice)
+        return redirect(url_for('advice', adviceID=adviceID))
+    return render_template('commentform.html', form=form, advice=advice)
 
 @app.route('/comments/edit/<commentID>', methods=['GET', 'POST'])
 @login_required
@@ -156,19 +140,19 @@ def commentsEdit(commentID):
     editComment = Comment.objects.get(id=commentID)
     if current_user != editComment.author:
         flash("You can't edit a comment you didn't write.")
-        return redirect(url_for('advice',adviceID=editComment.advice.id))
+        return redirect(url_for('advice', adviceID=editComment.advice.id))
     advice = Advice.objects.get(id=editComment.advice.id)
     form = CommentForm()
     if form.validate_on_submit():
         editComment.update(
-            question = form.question.data,
-            modifydate = dt.datetime.utcnow
+            content=form.content.data,  # Changed from `question` to `content`
+            modifydate=dt.datetime.utcnow()
         )
-        return redirect(url_for('advice',adviceID=editComment.advice.id))
+        return redirect(url_for('advice', adviceID=editComment.advice.id))
 
-    form.question.data = editComment.question
+    form.content.data = editComment.content  # Changed from `question` to `content`
 
-    return render_template('commentform.html',form=form,advice=advice)   
+    return render_template('commentform.html', form=form, advice=advice)
 
 @app.route('/comments/delete/<commentID>')
 @login_required

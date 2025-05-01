@@ -2,6 +2,7 @@
 # a blog where a blogs and comments on those blogs can be
 # Created, Read, Updated or Deleted (CRUD)
 
+import os
 from app import app
 import mongoengine.errors
 from flask import render_template, flash, redirect, url_for
@@ -10,6 +11,8 @@ from app.classes.data import Blog, Comment
 from app.classes.forms import BlogForm, CommentForm
 from flask_login import login_required
 import datetime as dt
+from flask import current_app
+from werkzeug.utils import secure_filename
 
 # This is the route to list all blogs
 @app.route('/blog/list')
@@ -78,46 +81,29 @@ def blogDelete(blogID):
 # Because this route includes a form that both gets and blogs data it needs the 'methods'
 # in the route decorator.
 @app.route('/blog/new', methods=['GET', 'POST'])
-# This means the user must be logged in to see this page
 @login_required
-# This is a function that is run when the user requests this route.
 def blogNew():
-    # This gets the form object from the form.py classes that can be displayed on the template.
     form = BlogForm()
 
-    # This is a conditional that evaluates to 'True' if the user submitted the form successfully.
-    # validate_on_submit() is a method of the form object. 
     if form.validate_on_submit():
+        image_filename = None
+        if form.image.data:
+            image_file = form.image.data
+            image_filename = secure_filename(image_file.filename)
+            image_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename))
 
-        # This stores all the values that the user entered into the new blog form. 
-        # Blog() is a mongoengine method for creating a new blog. 'newBlog' is the variable 
-        # that stores the object that is the result of the Blog() method.  
         newBlog = Blog(
-            # the left side is the name of the field from the data table
-            # the right side is the data the user entered which is held in the form object.
-            subject = form.subject.data,
-            content = form.content.data,
-            tag = form.tag.data,
-            author = current_user.id,
-            # This sets the modifydate to the current datetime.
-            modify_date = dt.datetime.utcnow
+            subject=form.subject.data,
+            content=form.content.data,
+            tag=form.tag.data,
+            author=current_user.id,
+            modify_date=dt.datetime.utcnow(),
+            image_path=image_filename  # <- store this in the Blog model
         )
-        # This is a method that saves the data to the mongoDB database.
         newBlog.save()
+        return redirect(url_for('blog', blogID=newBlog.id))
 
-        # Once the new blog is saved, this sends the user to that blog using redirect.
-        # and url_for. Redirect is used to redirect a user to different route so that 
-        # routes code can be run. In this case the user just created a blog so we want 
-        # to send them to that blog. url_for takes as its argument the function name
-        # for that route (the part after the def key word). You also need to send any
-        # other values that are needed by the route you are redirecting to.
-        return redirect(url_for('blog',blogID=newBlog.id))
-
-    # if form.validate_on_submit() is false then the user either has not yet filled out
-    # the form or the form had an error and the user is sent to a blank form. Form errors are 
-    # stored in the form object and are displayed on the form. take a look at blogform.html to 
-    # see how that works.
-    return render_template('blogform.html',form=form)
+    return render_template('blogform.html', form=form)
 
 
 # This route enables a user to edit a blog.  This functions very similar to creating a new 
@@ -128,36 +114,36 @@ def blogNew():
 @login_required
 def blogEdit(blogID):
     editBlog = Blog.objects.get(id=blogID)
-    # if the user that requested to edit this blog is not the author then deny them and
-    # send them back to the blog. If True, this will exit the route completely and none
-    # of the rest of the route will be run.
+
     if current_user != editBlog.author:
         flash("You can't edit a blog you don't own.")
-        return redirect(url_for('blog',blogID=blogID))
-    # get the form object
-    form = BlogForm()
-    # If the user has submitted the form then update the blog.
-    if form.validate_on_submit():
-        # update() is mongoengine method for updating an existing document with new data.
-        editBlog.update(
-            subject = form.subject.data,
-            content = form.content.data,
-            tag = form.tag.data,
-            modify_date = dt.datetime.utcnow
-        )
-        # After updating the document, send the user to the updated blog using a redirect.
-        return redirect(url_for('blog',blogID=blogID))
+        return redirect(url_for('blog', blogID=blogID))
 
-    # if the form has NOT been submitted then take the data from the editBlog object
-    # and place it in the form object so it will be displayed to the user on the template.
+    form = BlogForm()
+
+    if form.validate_on_submit():
+        image_filename = editBlog.image_path  # Use existing image by default
+
+        if form.image.data:
+            image_file = form.image.data
+            image_filename = secure_filename(image_file.filename)
+            image_file.save(os.path.join(current_app.config['UPLOAD_FOLDER'], image_filename))
+
+        editBlog.update(
+            subject=form.subject.data,
+            content=form.content.data,
+            tag=form.tag.data,
+            modify_date=dt.datetime.utcnow(),
+            image_path=image_filename
+        )
+        return redirect(url_for('blog', blogID=blogID))
+
+    # Pre-populate the form
     form.subject.data = editBlog.subject
     form.content.data = editBlog.content
     form.tag.data = editBlog.tag
 
-
-    # Send the user to the blog form that is now filled out with the current information
-    # from the form.
-    return render_template('blogform.html',form=form)
+    return render_template('blogform.html', form=form)
 
 #####
 # the routes below are the CRUD for the comments that are related to the blogs. This
@@ -172,40 +158,47 @@ def blogEdit(blogID):
 def commentNew(blogID):
     blog = Blog.objects.get(id=blogID)
     form = CommentForm()
+
     if form.validate_on_submit():
         newComment = Comment(
             author = current_user.id,
-            blog = blogID,
-            content = form.content.data
+            blog = blog,  # Save the blog object instead of just the ID
+            content = form.content.data  # Use 'content', not 'question'
         )
         newComment.save()
-        return redirect(url_for('blog',blogID=blogID))
-    return render_template('commentform.html',form=form,blog=blog)
+
+        return redirect(url_for('blog', blogID=blogID))
+
+    return render_template('commentform.html', form=form, blog=blog)
 
 @app.route('/comment/edit/<commentID>', methods=['GET', 'POST'])
 @login_required
 def commentEdit(commentID):
     editComment = Comment.objects.get(id=commentID)
+    
     if current_user != editComment.author:
         flash("You can't edit a comment you didn't write.")
-        return redirect(url_for('blog',blogID=editComment.blog.id))
+        return redirect(url_for('blog', blogID=editComment.blog.id))
+
     blog = Blog.objects.get(id=editComment.blog.id)
     form = CommentForm()
+
     if form.validate_on_submit():
         editComment.update(
             content = form.content.data,
             modifydate = dt.datetime.utcnow
         )
-        return redirect(url_for('blog',blogID=editComment.blog.id))
+        return redirect(url_for('blog', blogID=editComment.blog.id))
 
     form.content.data = editComment.content
 
-    return render_template('commentform.html',form=form,blog=blog)   
+    return render_template('commentform.html', form=form, blog=blog)
 
 @app.route('/comment/delete/<commentID>')
 @login_required
-def commentDelete(commentID): 
+def commentDelete(commentID):
     deleteComment = Comment.objects.get(id=commentID)
     deleteComment.delete()
-    flash('The comments was deleted.')
-    return redirect(url_for('blog',blogID=deleteComment.blog.id)) 
+    
+    flash('The comment was deleted.')
+    return redirect(url_for('blog', blogID=deleteComment.blog.id))

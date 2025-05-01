@@ -22,6 +22,7 @@ class BlogForm(FlaskForm):
     subject = StringField('Subject', validators=[DataRequired()])
     content = TextAreaField('Blog', validators=[DataRequired()])
     tag = StringField('Tag', validators=[DataRequired()])
+    image = FileField('Upload Image')
     submit = SubmitField('Post Blog')
 
 class AdviceForm(FlaskForm):
@@ -33,6 +34,7 @@ class AdviceForm(FlaskForm):
 class CommentForm(FlaskForm):
     content = TextAreaField('Comment', validators=[DataRequired()])
     submit = SubmitField('Comment')
+
 
 class HikeForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired()])

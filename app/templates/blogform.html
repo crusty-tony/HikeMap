@@ -3,7 +3,7 @@
 {% block body %}
         <h1>Post Your Blog Here</h1>
 
-        <form method=post>
+        <form method=post enctype="multipart/form-data">
             {{ form.hidden_tag() }}
             <p>
                 {{ form.subject.label }} <br>
@@ -20,6 +20,10 @@
                 {% for error in form.content.errors %}
                     <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
+            </p>
+            <p>
+                Upload Image<br>
+                <input type="file" name="image">
             </p>
             <p>
                 {{ form.tag.label }} <br>
