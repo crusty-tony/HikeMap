@@ -74,6 +74,35 @@ footer {
   color: #888;
 }
 
+h1{
+  color: #366038;
+  text-align: center;
+  text-decoration: underline;
+  text-transform: uppercase;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: rgb(247, 255, 252);
+}
 
+h4{
+  color: rgb(104, 161, 104);
+  font-family: 'Times New Roman', Times, serif;
+  text-decoration: overline;
+  text-decoration: underline;
+  background-color: rgb(238, 246, 243)
+}
 
+h5{
+  color: black;
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
 
+}
+
+h3{
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  color: #366038;
+}
+
+.aboutus{
+
+}
