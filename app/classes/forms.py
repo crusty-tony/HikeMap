@@ -47,7 +47,7 @@ class HikeForm(FlaskForm):
 
 
 class ReviewForm(FlaskForm):
-    name = SelectField('Hike Name',choices=[("Yosemite's Vernal Falls","Yosemite's Vernal Falls"),("Nevada Falls and Half Dome","Nevada Falls and Half Dome"), ("Redwood National Park's Tall Trees Grove Loop", "Redwood National Park's Tall Trees Grove Loop"), ("Channel Islands National Park's Prisoners Harbor Trail", "Channel Islands National Park's Prisoners Harbor Trail"), ("Other", "Other")])
+    name = SelectField('Hike Name',choices=[("Yosemite's Vernal Falls","Yosemite's Vernal Falls"),("Nevada Falls and Half Dome","Nevada Falls and Half Dome"), ("Redwood National Park's Tall Trees Grove Loop", "Redwood National Park's Tall Trees Grove Loop"), ("Channel Islands National Park's Prisoners Harbor Trail", "Channel Islands National Park's Prisoners Harbor Trail"), ("General Grant Trail", "General Grant Trail"), ("Point Lobos Loop", "Point Lobos Loop"), ("Potato Chip Rock and Mt. Woodson Summit", "Potato Chip Rock and Mt. Woodson Summit"), ("Other", "Other")])
     text = TextAreaField('Write your Review', validators=[DataRequired()])
     subject = SelectField('Experiences',choices=[("Point To Point", "Point To Point"), ("Loop","Loop"), ("Trail", "Trail"), ("Other","Other")])
     rating = IntegerField('Rate your experience: 0 is terrible, 10 is amazing', validators=[NumberRange(min=0,max=10, message="Enter a number between 0 and 10.")])
