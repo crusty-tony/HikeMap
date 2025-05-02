@@ -146,7 +146,7 @@ def commentsEdit(commentID):
     if form.validate_on_submit():
         editComment.update(
             content=form.content.data,  # Changed from `question` to `content`
-            modifydate=dt.datetime.utcnow()
+            modify_date=dt.datetime.utcnow()
         )
         return redirect(url_for('advice', adviceID=editComment.advice.id))
 

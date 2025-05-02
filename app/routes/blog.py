@@ -133,6 +133,7 @@ def blogEdit(blogID):
             subject=form.subject.data,
             content=form.content.data,
             tag=form.tag.data,
+            author = current_user.id,
             modify_date=dt.datetime.utcnow(),
             image_path=image_filename
         )
@@ -161,9 +162,9 @@ def commentNew(blogID):
 
     if form.validate_on_submit():
         newComment = Comment(
-            author = current_user.id,
+            author = current_user,
             blog = blog,  # Save the blog object instead of just the ID
-            content = form.content.data  # Use 'content', not 'question'
+            content = form.content.data  
         )
         newComment.save()
 
@@ -186,7 +187,7 @@ def commentEdit(commentID):
     if form.validate_on_submit():
         editComment.update(
             content = form.content.data,
-            modifydate = dt.datetime.utcnow
+            modify_date = dt.datetime.utcnow
         )
         return redirect(url_for('blog', blogID=editComment.blog.id))
 
